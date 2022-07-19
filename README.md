@@ -68,6 +68,14 @@ Successfully built.
 $ docker-compose run --rm app rails new . -d postgresql --skip-bundle --skip-turbolinks --skip-test --skip
 ```
 
+- M1 Macの場合
+  - `rails new`した後に出てくるファイルであるconfig/environments/development.rbを以下のように修正する
+    ```ruby:config/environments/development.rb
+    - config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+    + config.file_watcher = ActiveSupport::FileUpdateChecker
+    ```
+  - 参考：[M1 ProのDockerで沼にハマった話](https://zenn.dev/kenkenlysh/articles/6ba1f5b6b59f2c)
+
 ## 起動
 ```
 $ docker-compose up -d

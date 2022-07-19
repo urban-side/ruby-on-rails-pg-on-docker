@@ -1,3 +1,6 @@
+# M1 Mac用のDocker image
+# Intel CPUのMacの時は以下にする
+# FROM ruby:2.6.2
 FROM --platform=linux/amd64 ruby:2.6.2
 ENV LANG C.UTF-8
 ENV TZ=Asia/Tokyo

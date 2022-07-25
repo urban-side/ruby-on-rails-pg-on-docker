@@ -62,6 +62,7 @@ docker-composeコマンドを使い、複数コンテナをbuild〜起動して�
 $ docker-compose build
 Successfully built.
 ```
+> M1 Macの場合、node設定内に `platform: linux/amd64` の追記が必要かもしれないです。
 
 ## Generation packages by rails new
 ```

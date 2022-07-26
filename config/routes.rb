@@ -2,5 +2,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get "/home", to: "summary_detail#index"
+  get "/home/:id", to: "summary_detail#show"
 
 end

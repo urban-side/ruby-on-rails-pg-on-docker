@@ -1,6 +1,8 @@
 <h1>New Task</h1>
 
-<%= form_with model: @task, url: new_summary_detail_url do |form| %>
+<%
+=begin%>
+ <%= form_with model: @task, url: new_summary_detail_url do |form| %>
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -20,4 +22,9 @@
   <div>
     <%= form.submit %>
   </div>
-<% end %>
+<% end %> 
+<%
+=end
+%>
+
+<%= render "form", task: @task, url: new_summary_detail_url %>

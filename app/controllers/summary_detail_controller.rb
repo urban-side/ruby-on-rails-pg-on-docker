@@ -30,7 +30,8 @@ class SummaryDetailController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      redirect_to @task   # この@taskの書き方もちょっと怪しい（ちゃんとリダイレクトしなさそう）
+      flash[:notice] = "タスクを新規作成しました"   # TODO: フラッシュメッセージの表示
+      redirect_to root_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -45,7 +46,8 @@ class SummaryDetailController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update(task_params)
-      redirect_to @task   # この@taskの書き方もちょっと怪しい（ちゃんとリダイレクトしなさそう）
+      flash[:notice] = "タスクを編集しました"     # TODO: フラッシュメッセージの表示
+      redirect_to summary_detail_path(@task)
     else
       render :edit, status: :unprocessable_entity
     end

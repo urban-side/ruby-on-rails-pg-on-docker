@@ -51,6 +51,14 @@ class SummaryDetailController < ApplicationController
     end
   end
 
+  def destroy
+    @task = Task.find(params[:id])
+    @task.destroy
+
+    # 303 see otherでリダイレクト（状況によってリダイレクト先は変えるべき）
+    redirect_to root_path, status: :see_other
+  end
+
   private
     def task_params
       params.require(:task).permit(

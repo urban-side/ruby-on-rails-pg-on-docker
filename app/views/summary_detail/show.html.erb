@@ -5,4 +5,8 @@
 <p>重要度：<%= @priority_mark[@task.priority] %></p>
 <p>〆切：<%= @task.date %></p>
 <p>ラベル：<%= @task.label %></p>
-<p>作成者：<%= @task.user %></p>
+<p>作成者：<%= @task.user %></p> 
+
+<ul>
+  <li><%= link_to "Edit", edit_summary_detail_path(@task) %></li>
+</ul>

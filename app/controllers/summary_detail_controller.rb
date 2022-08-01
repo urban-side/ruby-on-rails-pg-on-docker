@@ -15,6 +15,7 @@ class SummaryDetailController < ApplicationController
   end
 
   def create
+    """
     @task = Task.new(
       title: "",
       description: "",
@@ -24,6 +25,9 @@ class SummaryDetailController < ApplicationController
       label: 0, 
       user: 0
     )
+    """
+    # タスクフィールドにフィルタを実装したため、create時に一旦それを通すよう変更
+    @task = Task.new(task_params)
 
     if @task.save
       redirect_to @task
@@ -32,4 +36,17 @@ class SummaryDetailController < ApplicationController
     end
   end
 
+  private
+    def task_params
+      params.require(:task).permit(
+        :title,
+        :description,
+        :status,
+        :date,
+        :priority,
+        :label,
+        :user
+      )
+    end
+  
 end

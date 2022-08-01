@@ -6,9 +6,7 @@
 <ul>
     <% @tasks.each do |task| %>
         <li>
-            <a href="/home/<%= task.id %>">
-                <b><%= task.title %></b>
-            </a>
+            <%= link_to task.title, summary_detail_path(task)%>
             <p><%= task.description %></p>
         </li>
     <% end %>

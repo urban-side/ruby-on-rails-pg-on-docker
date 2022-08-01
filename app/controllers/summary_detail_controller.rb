@@ -30,9 +30,24 @@ class SummaryDetailController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
-      redirect_to @task
+      redirect_to @task   # この@taskの書き方もちょっと怪しい（ちゃんとリダイレクトしなさそう）
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @task = Task.find(params[:id])
+  end
+
+  def update
+    # タスクフィールドにフィルタを実装したため、update時にも一旦それを通すよう変更
+    @task = Task.find(params[:id])
+
+    if @task.update(task_params)
+      redirect_to @task   # この@taskの書き方もちょっと怪しい（ちゃんとリダイレクトしなさそう）
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 

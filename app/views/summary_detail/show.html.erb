@@ -1,5 +1,7 @@
 <h1><%= @task.title %></h1>
 
+<%= flash[:notice] %>
+
 <p><%= @task.description %></p>
 <%
 =begin%>
@@ -17,3 +19,5 @@
     confirm: "このタスクを削除します。よろしいですか？"
   } %></li>
 </ul>
+
+<%= link_to "HOME", root_path %>

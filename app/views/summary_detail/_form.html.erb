@@ -1,4 +1,7 @@
 <%= form_with model: task, url: url, local: true do |form| %>
+
+  <%= flash[:notice] %>
+
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>

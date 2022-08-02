@@ -1,8 +1,23 @@
 <h1><%= @task.title %></h1>
 
+<%= flash[:notice] %>
+
 <p><%= @task.description %></p>
-<p><%= @status[@task.priority] %></p>
+<%
+=begin%>
+ <p><%= @status[@task.priority] %></p>
 <p>重要度：<%= @priority_mark[@task.priority] %></p>
 <p>〆切：<%= @task.date %></p>
 <p>ラベル：<%= @task.label %></p>
-<p>作成者：<%= @task.user %></p>
+<p>作成者：<%= @task.user %></p> 
+<%
+=end%>
+
+<ul>
+  <li><%= link_to "Edit", edit_summary_detail_path(@task) %></li>
+  <li><%= link_to "Destroy", summary_detail_path(@task), method: :delete, data: {
+    confirm: "このタスクを削除します。よろしいですか？"
+  } %></li>
+</ul>
+
+<%= link_to "HOME", root_path %>

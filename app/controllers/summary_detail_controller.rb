@@ -1,7 +1,9 @@
 class SummaryDetailController < ApplicationController
   
+  helper_method :sort_direction, :sort_column
+
   def index
-    @tasks = Task.all
+    @tasks = Task.all.order("#{sort_column} #{sort_direction}")
   end
 
   def show
@@ -74,5 +76,14 @@ class SummaryDetailController < ApplicationController
         :user
       )
     end
+
+    # 昇順・降順選択、params[:direction]に値がなければ [昇順] をデフォで返す
+    def sort_direction 
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    end
   
+    # sort対象の列を選択、ソート対象が見つからなければ [id] でソート
+    def sort_column
+      Task.column_names.include?(params[:sort]) ? params[:sort] : "id"
+    end
 end

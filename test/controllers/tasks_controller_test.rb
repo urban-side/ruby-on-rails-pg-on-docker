@@ -3,11 +3,11 @@ require 'test_helper'
 class SummaryDetailControllerTest < ActionDispatch::IntegrationTest
   setup do
     @tasks = Task.all
-    
+    @task = Task.last
   end
 
   test "should get index" do
-    get summary_detail_index_url
+    get summary_detail_index_url, params: {sort_column: "created_at", sort_direction: "asc"}
     assert_response :success
   end
 
@@ -18,10 +18,10 @@ class SummaryDetailControllerTest < ActionDispatch::IntegrationTest
 
   test "should create task" do
     assert_difference('Task.count') do
-      post summary_detail_index_url, params: { task: {  } }
+      post summary_detail_index_url, params: {task: {title: "spec test", description: "test from openspec"} }
     end
 
-    assert_redirected_to task_url(Task.last)
+    assert_redirected_to root_url
   end
 
   test "should show task" do
@@ -35,8 +35,8 @@ class SummaryDetailControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update task" do
-    patch summary_detail_url(@task), params: { task: {  } }
-    assert_redirected_to task_url(@task)
+    patch summary_detail_url(@task), params: { task: {title: "spec test", description: "test from openspec"} }
+    assert_redirected_to summary_detail_url(@task)
   end
 
   test "should destroy task" do
@@ -44,6 +44,6 @@ class SummaryDetailControllerTest < ActionDispatch::IntegrationTest
       delete summary_detail_url(@task)
     end
 
-    assert_redirected_to tasks_url
+    assert_redirected_to root_url
   end
 end

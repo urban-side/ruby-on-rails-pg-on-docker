@@ -5,6 +5,9 @@
 
 <h1>Task</h1>
 
+<%= sort_order  "created_at", "作成日時"%>
+<%= sort_order  "title", "タイトル"%>
+
 <ul>
     <% @tasks.each do |task| %>
         <li>

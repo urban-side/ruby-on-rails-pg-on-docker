@@ -3,7 +3,7 @@
   <%= flash[:notice] %>
 
   <div>
-    <%= form.label :title %><br>
+    <%= form.label :title %>: 
     <%= form.text_field :title %>
     <% task.errors.full_messages_for(:title).each do |message| %>
       <div><%= message %></div>
@@ -14,6 +14,50 @@
     <%= form.label :description %><br>
     <%= form.text_area :description %>
     <% task.errors.full_messages_for(:description).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div> 
+    <%= form.label :status %>: 
+    <label><%= form.radio_button :status, 0 %>未着手</label>
+    <label><%= form.radio_button :status, 1 %>作業中</label> 
+    <label><%= form.radio_button :status, 2 %>完了</label>
+    <% task.errors.full_messages_for(:status).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+  
+  <div>
+    <%= form.label :date %>: 
+    <%= form.datetime_field :date %>
+    <% task.errors.full_messages_for(:date).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :priority %>: 
+    <label><%= form.radio_button :priority, 1 %>!</label> 
+    <label><%= form.radio_button :priority, 2 %>!!</label>
+    <label><%= form.radio_button :priority, 3 %>!!!</label>
+    <% task.errors.full_messages_for(:priority).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :label %>: 
+    <%= form.text_field :label %>
+    <% task.errors.full_messages_for(:labesl).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :user %>: 
+    <%= form.text_field :user %>
+    <% task.errors.full_messages_for(:user).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>

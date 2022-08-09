@@ -8,3 +8,5 @@ ja:
               blank: "必須項目です"
             description: 
               blank: "必須項目です"
+            status: 
+              blank: "必須項目です"

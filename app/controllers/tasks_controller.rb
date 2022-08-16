@@ -1,4 +1,4 @@
-class TaskController < ApplicationController
+class TasksController < ApplicationController
   
   helper_method :sort_direction, :sort_column
 

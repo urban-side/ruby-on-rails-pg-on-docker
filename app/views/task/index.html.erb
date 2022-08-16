@@ -1,5 +1,5 @@
 <h1>SummaryDetail#index</h1>
-<p>Find me in app/views/summary_detail/index.html.erb</p>
+<p>Find me in app/views/task/index.html.erb</p>
 
 <%= flash[:notice] %>
 
@@ -11,10 +11,10 @@
 <ul>
     <% @tasks.each do |task| %>
         <li>
-            <%= link_to task.title, summary_detail_path(task)%>
+            <%= link_to task.title, task_path(task)%>
             <p><%= task.description %></p>
         </li>
     <% end %>
 </ul>
 
-<%= link_to "New Task", new_summary_detail_path %>
+<%= link_to "New Task", new_task_path %>

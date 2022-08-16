@@ -2,7 +2,7 @@
 
 <%
 =begin%>
- <%= form_with model: @task, url: new_summary_detail_url do |form| %>
+ <%= form_with model: @task, url: new_task_url do |form| %>
   <div>
     <%= form.label :title %><br>
     <%= form.text_field :title %>
@@ -27,6 +27,6 @@
 =end
 %>
 
-<%= render "form", task: @task, url: summary_detail_index_url %>
+<%= render "form", task: @task, url: task_index_url %>
 <br>
 <%= link_to "HOME", root_path %>

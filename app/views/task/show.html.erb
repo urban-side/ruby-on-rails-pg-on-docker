@@ -14,8 +14,8 @@
 =end%>
 
 <ul>
-  <li><%= link_to "Edit", edit_summary_detail_path(@task) %></li>
-  <li><%= link_to "Destroy", summary_detail_path(@task), method: :delete, data: {
+  <li><%= link_to "Edit", edit_task_path(@task) %></li>
+  <li><%= link_to "Destroy", task_path(@task), method: :delete, data: {
     confirm: "このタスクを削除します。よろしいですか？"
   } %></li>
 </ul>

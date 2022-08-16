@@ -3,15 +3,14 @@
 <%= flash[:notice] %>
 
 <p><%= @task.description %></p>
-<%
-=begin%>
- <p><%= @status[@task.priority] %></p>
-<p>重要度：<%= @priority_mark[@task.priority] %></p>
-<p>〆切：<%= @task.date %></p>
+<p><%= @status[@task.priority] %></p>
+<p>進捗：<%= @status[@task.status] %></p>
+<p>〆切日時：<%= @task.date.strftime('%Y.%m.%d %H:%M') %></p>
+<p>優先度：<%= @priority_mark[@task.priority] %></p>
 <p>ラベル：<%= @task.label %></p>
-<p>作成者：<%= @task.user %></p> 
-<%
-=end%>
+<p>作成者：<%= @task.user %></p>
+<p>作成日時：<%= @task.created_at.strftime('%Y.%m.%d %H:%M') %></p>
+<p>更新日時：<%= @task.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
 
 <ul>
   <li><%= link_to "Edit", edit_summary_detail_path(@task) %></li>

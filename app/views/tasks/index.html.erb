@@ -19,7 +19,7 @@
     <% @tasks.each do |task| %>
         <tr>
             <td><%= task.id %></td>
-            <td><%= link_to task.title, summary_detail_path(task)%></td>
+            <td><%= link_to task.title, task_path(task)%></td>
             <td><%= task.description %></td>
             <td><%= @status[task.status] %></td>
             <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
@@ -33,4 +33,4 @@
 </table>
 
 <br>
-<%= link_to "New Task", new_summary_detail_path %>
+<%= link_to "New Task", new_task_path %>

@@ -4,6 +4,8 @@ class TasksController < ApplicationController
 
   def index
     @tasks = Task.all.order("#{sort_column} #{sort_direction}")
+    @status = ["未着手", "進行中", "完了"]
+    @priority_mark = ["", "!", "!!", "!!!"]
   end
 
   def show

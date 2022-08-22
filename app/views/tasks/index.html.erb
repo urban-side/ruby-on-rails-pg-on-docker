@@ -1,20 +1,36 @@
-<h1>SummaryDetail#index</h1>
-<p>Find me in app/views/task/index.html.erb</p>
+<h1>Task</h1>
 
 <%= flash[:notice] %>
 
-<h1>Task</h1>
-
-<%= sort_order  "created_at", "作成日時"%>
-<%= sort_order  "title", "タイトル"%>
-
-<ul>
+<table style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+    <tr>
+        <th><%= sort_order  "id", "ID"%></th>
+        <th><%= sort_order  "title", "タイトル"%></th>
+        <th><%= sort_order  "description", "詳細"%></th>
+        <th><%= sort_order  "status", "進捗"%></th>
+        <th><%= sort_order  "date", "〆切日時"%></th>
+        <th><%= sort_order  "priority", "優先度"%></th>
+        <th><%= sort_order  "user", "作成者"%></th>
+        <th><%= sort_order  "label", "ラベル"%></th>
+        <th><%= sort_order  "created_at", "作成日時"%></th>
+        <th><%= sort_order  "updated_at", "更新日時"%></th>
+    </tr>
+    
     <% @tasks.each do |task| %>
-        <li>
-            <%= link_to task.title, task_path(task)%>
-            <p><%= task.description %></p>
-        </li>
+        <tr>
+            <td><%= task.id %></td>
+            <td><%= link_to task.title, summary_detail_path(task)%></td>
+            <td><%= task.description %></td>
+            <td><%= @status[task.status] %></td>
+            <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
+            <td><%= @priority_mark[task.priority] %></td>
+            <td><%= task.user %></td>
+            <td><%= task.label %></td>
+            <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+            <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+        </tr>
     <% end %>
-</ul>
+</table>
 
-<%= link_to "New Task", new_task_path %>
+<br>
+<%= link_to "New Task", new_summary_detail_path %>

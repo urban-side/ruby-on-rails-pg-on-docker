@@ -1,4 +1,4 @@
-class SummaryDetailController < ApplicationController
+class TasksController < ApplicationController
   
   helper_method :sort_direction, :sort_column
 
@@ -50,7 +50,7 @@ class SummaryDetailController < ApplicationController
     @task = Task.find(params[:id])
 
     if @task.update(task_params)
-      redirect_to summary_detail_path(@task)
+      redirect_to task_path(@task)
       flash[:notice] = "タスクを編集しました"
     else
       render :edit, status: :unprocessable_entity

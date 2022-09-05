@@ -1,17 +1,14 @@
 class TasksController < ApplicationController
-  
+  before_action :set_varbs, only: [:index, :show, :search]
+  before_action :set_q, only:[:index, :search]
   helper_method :sort_direction, :sort_column
 
   def index
     @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
-    @status = ["未着手", "進行中", "完了"]
-    @priority_mark = ["", "!", "!!", "!!!"]
   end
 
   def show
     @task = Task.find(params[:id])
-    @status = ["未着手", "進行中", "完了"]
-    @priority_mark = ["", "!", "!!", "!!!"]
   end
 
   def new
@@ -66,6 +63,10 @@ class TasksController < ApplicationController
     flash[:notice] = "タスクを削除しました"
   end
 
+  def search
+    @results = @q.result
+  end
+
   private
     def task_params
       params.require(:task).permit(
@@ -87,5 +88,14 @@ class TasksController < ApplicationController
     # sort対象の列を選択、ソート対象が見つからなければ [id] でソート
     def sort_column
       Task.column_names.include?(params[:sort]) ? params[:sort] : "id"
+    end
+
+    def set_varbs
+      @status = ["未着手", "作業中", "完了"]
+      @priority_mark = ["", "!", "!!", "!!!"]
+    end
+
+    def set_q
+      @q = Task.ransack(params[:q])
     end
 end

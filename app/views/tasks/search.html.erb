@@ -1,35 +1,52 @@
-<h1>検索結果</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand">Tasks</a>
+      </div>
+    </nav>
 
-<table>
-    <thead><tr>
-        <th>ID</th>
-        <th>タイトル</th>
-        <th>詳細</th>
-        <th>進捗</th>
-        <th>〆切日時</th>
-        <th>優先度</th>
-        <th>作成者</th>
-        <th>ラベル</th>
-        <th>作成日時</th>
-        <th>更新日時</th>
-    </thead></tr>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th scope="col"><%= sort_order "id", "ID"%></th>
+          <th scope="col"><%= sort_order "title", "タイトル"%></th>
+          <th scope="col"><%= sort_order "description", "詳細"%></th>
+          <th scope="col"><%= sort_order "status", "進捗"%></th>
+          <th scope="col"><%= sort_order "date", "〆切日時"%></th>
+          <th scope="col"><%= sort_order "priority", "優先度"%></th>
+          <th scope="col"><%= sort_order "user", "作成者"%></th>
+          <th scope="col"><%= sort_order "label", "ラベル"%></th>
+          <th scope="col"><%= sort_order "created_at", "作成日時"%></th>
+          <th scope="col"><%= sort_order "updated_at", "更新日時"%></th>
+        </thead>
+        
+        <tbody>
+          <% @results.each do |task| %>
+            <tr>
+              <td><%= task.id %></td>
+              <td><%= link_to task.title, task_path(task)%></td>
+              <td><%= task.description %></td>
+              <td><%= @status[task.status] %></td>
+              <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
+              <td><%= @priority_mark[task.priority] %></td>
+              <td><%= task.user %></td>
+              <td><%= task.label %></td>
+              <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+              <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
     
-    <tbody>
-    <% @results.each do |task| %>
-        <tr>
-            <td><%= task.id %></td>
-            <td><%= link_to task.title, task_path(task)%></td>
-            <td><%= task.description %></td>
-            <td><%= @status[task.status] %></td>
-            <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
-            <td><%= @priority_mark[task.priority] %></td>
-            <td><%= task.user %></td>
-            <td><%= task.label %></td>
-            <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
-            <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
-        </tr>
-    <% end %>
-    </tbody>
-</table>
-
-<%= link_to 'Top', root_path %>
+    <hr>
+    <%= link_to "<< Home", root_path, class: 'btn btn-link my-3' %>
+  </body>
+</html>

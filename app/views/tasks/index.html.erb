@@ -1,55 +1,83 @@
-<h1>Task</h1>
+<!DOCTYPE html>
 
-<%= search_form_for @q, url: search_tasks_path do |f| %>
-    <%= f.label :title_cont, '＜タスク名＞' %><br>
-    <%= f.search_field :title_cont, placeholder: "検索したいタイトル" %>
-    <br>
-    <%= f.label :status, '＜進捗＞' %><br>
-    <%= f.radio_button :status_eq, '' %>指定しない
-    <%= f.radio_button :status_eq, 0 %>未着手
-    <%= f.radio_button :status_eq, 1 %>作業中
-    <%= f.radio_button :status_eq, 2 %>完了
-    <br>
-    <%= f.submit '検索' %>
-<% end %>
-<hr>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  </head>
 
-<%= flash[:notice] %>
-
-<table style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
-    <thead><tr>
-        <th><%= sort_order  "id", "ID"%></th>
-        <th><%= sort_order  "title", "タイトル"%></th>
-        <th><%= sort_order  "description", "詳細"%></th>
-        <th><%= sort_order  "status", "進捗"%></th>
-        <th><%= sort_order  "date", "〆切日時"%></th>
-        <th><%= sort_order  "priority", "優先度"%></th>
-        <th><%= sort_order  "user", "作成者"%></th>
-        <th><%= sort_order  "label", "ラベル"%></th>
-        <th><%= sort_order  "created_at", "作成日時"%></th>
-        <th><%= sort_order  "updated_at", "更新日時"%></th>
-    </thead></tr>
+  <body>
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand">Tasks</a>
+        <%= link_to "Create New Task", new_task_path, class: 'btn btn-info' %>
+      </div>
+    </nav>
     
-    <tbody>
-    <% @tasks.each do |task| %>
-        <tr>
-            <td><%= task.id %></td>
-            <td><%= link_to task.title, task_path(task)%></td>
-            <td><%= task.description %></td>
-            <td><%= @status[task.status] %></td>
-            <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
-            <td><%= @priority_mark[task.priority] %></td>
-            <td><%= task.user %></td>
-            <td><%= task.label %></td>
-            <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
-            <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
-        </tr>
+    <%= search_form_for @q, url: search_tasks_path do |f| %>
+      <div class="container mb-3">
+        <div class="row align-items-center">
+          <div class="col-md-4"><%= f.search_field :title_cont, placeholder: "検索したいタイトル", class: 'form-control'%></div>
+          <div class="col-md-6" style="text-align:center;">
+            <div class="form-check form-check-inline">
+              <%= f.radio_button :status_eq, '', class: 'form-check-input' %>
+              <label class="form-check-label">指定なし</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <%= f.radio_button :status_eq, 0, class: 'form-check-input' %>
+              <label class="form-check-label">未着手</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <%= f.radio_button :status_eq, 1, class: 'form-check-input' %>
+              <label class="form-check-label">作業中</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <%= f.radio_button :status_eq, 2, class: 'form-check-input' %>
+              <label class="form-check-label">完了</label>
+            </div>
+          </div>
+          <div class="col"><%= f.submit '検索', class: 'btn btn-primary btn-sm btn-block' %></div>
+        </div>
+      </div>
     <% end %>
-    </tbody>
-</table>
+    
+    <%= flash[:notice] %>
 
-<br>
-<%= paginate @tasks %>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th scope="col"><%= sort_order "id", "ID"%></th>
+          <th scope="col"><%= sort_order "title", "タイトル"%></th>
+          <th scope="col"><%= sort_order "description", "詳細"%></th>
+          <th scope="col"><%= sort_order "status", "進捗"%></th>
+          <th scope="col"><%= sort_order "date", "〆切日時"%></th>
+          <th scope="col"><%= sort_order "priority", "優先度"%></th>
+          <th scope="col"><%= sort_order "user", "作成者"%></th>
+          <th scope="col"><%= sort_order "label", "ラベル"%></th>
+          <th scope="col"><%= sort_order "created_at", "作成日時"%></th>
+          <th scope="col"><%= sort_order "updated_at", "更新日時"%></th>
+        </thead>
+        
+        <tbody>
+          <% @tasks.each do |task| %>
+            <tr>
+              <td><%= task.id %></td>
+              <td><%= link_to task.title, task_path(task)%></td>
+              <td><%= task.description %></td>
+              <td><%= @status[task.status] %></td>
+              <td><%= task.date.strftime('%Y.%m.%d %H:%M') %></td>
+              <td><%= @priority_mark[task.priority] %></td>
+              <td><%= task.user %></td>
+              <td><%= task.label %></td>
+              <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+              <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
-<br>
-<%= link_to "New Task", new_task_path %>
+    <%= paginate @tasks, class: 'mb-3', theme: 'twitter-bootstrap-4'%>
+  
+  </body>
+</html>

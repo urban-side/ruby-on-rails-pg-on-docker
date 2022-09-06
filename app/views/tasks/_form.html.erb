@@ -1,68 +1,83 @@
 <%= form_with model: task, url: url, local: true do |form| %>
-
-  <%= flash[:notice] %>
-
-  <div>
-    <%= form.label :title %>: 
-    <%= form.text_field :title %>
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'form-control', placeholder: 'タスクのタイトル'%>
     <% task.errors.full_messages_for(:title).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :description %><br>
-    <%= form.text_area :description %>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: 'form-control', placeholder: 'タスクの詳細' %>
     <% task.errors.full_messages_for(:description).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
-  <div> 
-    <%= form.label :status %>: 
-    <label><%= form.radio_button :status, 0 %>未着手</label>
-    <label><%= form.radio_button :status, 1 %>作業中</label> 
-    <label><%= form.radio_button :status, 2 %>完了</label>
+  <div class="form-group">
+    <%= form.label :status %> <br>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :status, 0, class: 'form-check-input' %>
+      <%= form.label :status, '未着手', value: 0, class: 'form-check-label'%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :status, 1, class: 'form-check-input' %>
+      <%= form.label :status, '作業中', value: 1, class: 'form-check-label'%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :status, 2, class: 'form-check-input' %>
+      <%= form.label :status, '完了', value: 2, class: 'form-check-label'%>
+    </div>
     <% task.errors.full_messages_for(:status).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
   
-  <div>
-    <%= form.label :date %>: 
-    <%= form.datetime_field :date %>
+  <div class="form-group">
+    <%= form.label :date %>
+    <%= form.datetime_field :date, class: 'form-control'%>
     <% task.errors.full_messages_for(:date).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :priority %>: 
-    <label><%= form.radio_button :priority, 1 %>!</label> 
-    <label><%= form.radio_button :priority, 2 %>!!</label>
-    <label><%= form.radio_button :priority, 3 %>!!!</label>
+  <div class="form-group">
+    <%= form.label :priority %> <br>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :priority, 1, class: 'form-check-input' %>
+      <%= form.label :priority, '!', value: 1, class: 'form-check-label'%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :priority, 2, class: 'form-check-input' %>
+      <%= form.label :priority, '!!', value: 2, class: 'form-check-label'%>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= form.radio_button :priority, 3, class: 'form-check-input' %>
+      <%= form.label :priority, '!!!', value: 3, class: 'form-check-label'%>
+    </div>
     <% task.errors.full_messages_for(:priority).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :label %>: 
-    <%= form.text_field :label %>
+  <div class="form-group">
+    <%= form.label :label %>
+    <%= form.text_field :label, class: 'form-control' %>
     <% task.errors.full_messages_for(:labesl).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :user %>: 
-    <%= form.text_field :user %>
+  <div class="form-group">
+    <%= form.label :user %>
+    <%= form.text_field :user, class: 'form-control' %>
     <% task.errors.full_messages_for(:user).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: 'btn btn-success btn-sm btn-block mt-5' %>
   </div>
 <% end %>

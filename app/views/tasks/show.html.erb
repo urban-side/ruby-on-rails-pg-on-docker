@@ -19,7 +19,6 @@
       <hr>
 
       <p><%= @task.description %></p>
-      <p><%= @status[@task.priority] %></p>
       <p>進捗：<%= @status[@task.status] %></p>
       <p>〆切日時：<%= @task.date.strftime('%Y.%m.%d %H:%M') %></p>
       <p>優先度：<%= @priority_mark[@task.priority] %></p>

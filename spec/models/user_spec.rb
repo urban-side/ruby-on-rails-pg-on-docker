@@ -14,6 +14,12 @@ RSpec.describe User, type: :model do
           expect(build(:user, email: valid_address)).to be_valid
         end
       end
+
+      "email addresses should be saved as lower-case" do
+        mixed_case_email = "Foo@ExAMPle.CoM"
+        create(:user, email: mixed_case_email)
+        expect(mixed_case_email.downcase).to eq User.take.email
+      end
     end
 
     context "abnormal condition" do

@@ -17,16 +17,14 @@
       <h1><%= @task.title %></h1>
       <%= flash[:notice] %>
       <hr>
-
       <p><%= @task.description %></p>
       <p>進捗：<%= @status[@task.status] %></p>
-      <p>〆切日時：<%= @task.date.strftime('%Y.%m.%d %H:%M') %></p>
-      <p>優先度：<%= @priority_mark[@task.priority] %></p>
-      <p>ラベル：<%= @task.label %></p>
-      <p>作成者：<%= @task.user %></p>
+      <p>〆切日時：<%= nil_trans @task.date, true %></p>
+      <p>優先度：<%= @priority_mark[nil_trans @task.priority, false, true] %></p>
+      <p>ラベル：<%= nil_trans @task.user %></p>
+      <p>作成者：<%= nil_trans @task.user %></p>
       <p>作成日時：<%= @task.created_at.strftime('%Y.%m.%d %H:%M') %></p>
       <p>更新日時：<%= @task.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
-      
       <hr>
 
       <%= link_to "Edit", edit_task_path(@task), class: 'btn btn-info btn-sm w-25' %>

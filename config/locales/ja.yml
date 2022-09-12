@@ -10,3 +10,12 @@ ja:
               blank: "必須項目です"
             status: 
               blank: "必須項目です"
+        user:
+          attributes:
+            name: 
+              blank: "必須項目です"
+              too_long: "長すぎます（50文字以内に収めてください）"
+            email: 
+              blank: "必須項目です"
+              too_long: "長すぎます（255文字以内に収めてください）"
+              invalid: "正しいメールアドレスを入力してください"

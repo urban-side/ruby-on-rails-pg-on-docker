@@ -1,6 +1,8 @@
 ja:
   activerecord:
     errors:
+      messages:
+        record_invalid: "バリデーションに失敗しました: %{errors}"
       models:
         task:
           attributes:
@@ -19,3 +21,6 @@ ja:
               blank: "必須項目です"
               too_long: "長すぎます（255文字以内に収めてください）"
               invalid: "正しいメールアドレスを入力してください"
+            password:
+              blank: "必須項目です" 
+              too_short: "短すぎます（6文字以上にしてください）"

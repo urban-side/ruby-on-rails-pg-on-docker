@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_varbs, only: [:index, :show, :search]
   before_action :set_q, only:[:index, :search]
+  before_action :loggedin_check
   helper_method :sort_direction, :sort_column
 
   def index
@@ -97,5 +98,11 @@ class TasksController < ApplicationController
 
     def set_q
       @q = Task.ransack(params[:q])
+    end
+
+    def loggedin_check
+      if !logged_in?
+        redirect_to login_path
+      end
     end
 end

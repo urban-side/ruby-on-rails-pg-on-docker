@@ -9,13 +9,18 @@
   <body>
     <nav class="navbar navbar-light bg-light mb-3">
       <div class="container-fluid">
-        <a href="/" class="navbar-brand">Tasks</a>
-        <%= link_to "Create New Task", new_task_path, class: 'btn btn-info' %>
+        <a href="/tasks" class="navbar-brand">Tasks</a>
+        <div>
+          <%= current_user.name %>
+          <%= link_to "log out", logout_path, method: :delete, class: 'btn btn-link' %>
+        </div>
       </div>
     </nav>
-    
+
     <%= search_form_for @q, url: search_tasks_path do |f| %>
       <div class="container mb-3">
+        <%= link_to "Create New Task", new_task_path, class: 'btn btn-info btn-block mb-3' %>
+        <hr>
         <div class="row align-items-center">
           <div class="col-md-4"><%= f.search_field :title_cont, placeholder: "検索したいタイトル", class: 'form-control'%></div>
           <div class="col-md-6" style="text-align:center;">

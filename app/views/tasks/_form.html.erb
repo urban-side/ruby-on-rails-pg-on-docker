@@ -63,16 +63,16 @@
 
   <div class="form-group">
     <%= form.label :label %>
-    <%= form.text_field :label, class: 'form-control' %>
+    <%= form.number_field :label, class: 'form-control' %>
     <% task.errors.full_messages_for(:labesl).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>
 
   <div class="form-group">
-    <%= form.label :user %>
-    <%= form.text_field :user, class: 'form-control' %>
-    <% task.errors.full_messages_for(:user).each do |message| %>
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id, class: 'form-control' %>
+    <% task.errors.full_messages_for(:user_id).each do |message| %>
       <div><%= message %></div>
     <% end %>
   </div>

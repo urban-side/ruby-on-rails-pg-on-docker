@@ -76,7 +76,7 @@ class TasksController < ApplicationController
         :date,
         :priority,
         :label,
-        :user
+        :user_id
       )
     end
 

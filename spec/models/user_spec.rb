@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
         end
       end
 
-      "email addresses should be saved as lower-case" do
+      it "email addresses should be saved as lower-case" do
         mixed_case_email = "Foo@ExAMPle.CoM"
         create(:user, email: mixed_case_email)
         expect(mixed_case_email.downcase).to eq User.take.email
@@ -61,6 +61,19 @@ RSpec.describe User, type: :model do
         user = create(:user)
         user.email = user.email.upcase  # メアドは大文字小文字判断しないので、片方大文字にしても一致検査に引っかかるようにテスト
         expect(build(:user, email:user.email)).not_to be_valid
+      end
+
+      it "password should be present (nonblank)" do
+        user = build(:user, password: " "*6, password_confirmation: " "*6)
+        user.valid?
+        expect(user.errors[:password]).to include("必須項目です") 
+      end
+    
+      it "password should have a minimum length" do
+        sample_pass = "a" * 5
+        user = build(:user, password: sample_pass, password_confirmation: sample_pass)
+        user.valid?
+        expect(user.errors[:password]).to include("短すぎます（6文字以上にしてください）") 
       end
     end
   end

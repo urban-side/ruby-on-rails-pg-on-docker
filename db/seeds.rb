@@ -9,7 +9,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 3.times do |t|
-    Task.create(
+    Task.create!(
         title: "test#{t + 1}",
         description: "これはテストです（#{t}）",
         status: t,
@@ -18,8 +18,9 @@
         label: 0, 
         user_id: t+1
     )
-    User.create(
+    User.create!(
         name: "user#{t}",
-        email: "sample#{t}@example.com"
+        email: "sample#{t}@example.com",
+        password: "hogehoge#{t}"
     )
 end

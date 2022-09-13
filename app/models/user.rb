@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :tasks, dependent: :destroy
+
   before_save { email.downcase! }    # save前にメアドを小文字化するように
   validates :name,  presence: true, length: { maximum:50 }
   validates :email, presence: true, length: { maximum:255 },

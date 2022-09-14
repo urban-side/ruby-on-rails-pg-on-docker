@@ -12,10 +12,14 @@
     Task.create(
         title: "test#{t + 1}",
         description: "これはテストです（#{t}）",
-        status: 0,
+        status: t,
         date: "2022-01-0#{t + 1} 10:00:00", 
-        priority: 3,
+        priority: 3-t,
         label: 0, 
-        user: 0
+        user_id: t+1
+    )
+    User.create(
+        name: "user#{t}",
+        email: "sample#{t}@example.com"
     )
 end

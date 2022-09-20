@@ -7,4 +7,6 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i },
                     # uniqueness: true
                     uniqueness: { case_sensitive: false }    # 大文字小文字関係なく一致ないように制限（この時uniqunessは自動的にtrue扱い）
+  has_secure_password
+  validates :password, presence: true, length: { minimum: 6 }
 end

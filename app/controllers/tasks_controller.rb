@@ -1,10 +1,12 @@
 class TasksController < ApplicationController
   before_action :set_varbs, only: [:index, :show, :search]
   before_action :set_q, only:[:index, :search]
+  before_action :loggedin_check
   helper_method :sort_direction, :sort_column
 
   def index
-    @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
+    # @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
+    @tasks = Task.where(user_id: session[:user_id]).order("#{sort_column} #{sort_direction}").page(params[:page])
   end
 
   def show
@@ -12,7 +14,7 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task = Task.new(user_id: session[:user_id])
   end
 
   def create
@@ -97,5 +99,11 @@ class TasksController < ApplicationController
 
     def set_q
       @q = Task.ransack(params[:q])
+    end
+
+    def loggedin_check
+      if !logged_in?
+        redirect_to login_path
+      end
     end
 end

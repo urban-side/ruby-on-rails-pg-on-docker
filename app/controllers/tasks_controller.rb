@@ -5,7 +5,8 @@ class TasksController < ApplicationController
   helper_method :sort_direction, :sort_column
 
   def index
-    @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
+    # @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
+    @tasks = Task.where(user_id: session[:user_id]).order("#{sort_column} #{sort_direction}").page(params[:page])
   end
 
   def show

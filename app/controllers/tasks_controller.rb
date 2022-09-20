@@ -30,7 +30,7 @@ class TasksController < ApplicationController
     )
     """
     # タスクフィールドにフィルタを実装したため、create時に一旦それを通すよう変更
-    @task = Task.new(task_params)
+    @task = Task.new(task_params.merge(user_id: session[:user_id]))
 
     if @task.save
       redirect_to root_path
@@ -77,8 +77,7 @@ class TasksController < ApplicationController
         :status,
         :date,
         :priority,
-        :label,
-        :user_id
+        :label
       )
     end
 

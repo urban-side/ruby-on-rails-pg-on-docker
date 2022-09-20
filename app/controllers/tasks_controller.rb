@@ -14,7 +14,7 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task = Task.new(user_id: session[:user_id])
   end
 
   def create

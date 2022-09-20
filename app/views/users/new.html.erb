@@ -1,2 +1,28 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand">Tasks</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1>ユーザー作成</h1>
+      <%= flash[:notice] %>
+      <hr>
+      <%= render "form", user: @user, url: users_url%>
+      <hr>
+
+      <div class="my-3">
+        <%= link_to "< Back", login_path, class: 'btn btn-link' %>
+      </div>
+    </div>
+  </body>
+</html>

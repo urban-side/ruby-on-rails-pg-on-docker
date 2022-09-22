@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  scope '/admin' do
+    resources :users
+  end
 
   # resourcesを使うフルセットルーティングはいらないので個別指定
   get    '/login',   to: 'sessions#new'

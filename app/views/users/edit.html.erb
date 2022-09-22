@@ -10,18 +10,22 @@
     <nav class="navbar navbar-light bg-light mb-3">
       <div class="container-fluid">
         <a href="/" class="navbar-brand">Tasks</a>
+        <div>
+          <%= link_to current_user.name, user_path(session[:user_id]), class: 'btn btn-link' %>
+          <%= link_to "log out", logout_path, method: :delete, class: 'btn btn-outline-danger' %>
+        </div>
       </div>
     </nav>
 
     <div class="container">
-      <h1>ユーザー作成</h1>
+      <h1>ユーザー編集</h1>
       <%= flash[:notice] %>
       <hr>
-      <%= render "form", user: @user, url: users_url%>
+      <%= render "form", user: @user, url: user_url%>
       <hr>
 
       <div class="my-3">
-        <%= link_to "< Back", :back, class: 'btn btn-link' %>
+        <%= link_to "< Back", user_url(@user), class: 'btn btn-link' %>
       </div>
     </div>
   </body>

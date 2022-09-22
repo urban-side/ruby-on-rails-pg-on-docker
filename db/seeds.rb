@@ -9,18 +9,20 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 3.times do |t|
-    Task.create!(
-        title: "test#{t + 1}",
-        description: "これはテストです（#{t}）",
-        status: t,
-        date: "2022-01-0#{t + 1} 10:00:00", 
-        priority: 3-t,
-        label: 0, 
-        user_id: t+1
-    )
     User.create!(
-        name: "user#{t}",
-        email: "sample#{t}@example.com",
-        password: "hogehoge#{t}"
+        name: "user#{t+1}",
+        email: "sample#{t+1}@example.com",
+        password: "hogehoge#{t+1}"
     )
+    3.times do |n|
+        Task.create!(
+            title: "test#{t+1}-#{n+1}",
+            description: "From seed file; #{t+1}-#{n+1}",
+            status: n,
+            date: "2022-01-0#{t+1} 10:00:00", 
+            priority: 3-n,
+            label: 0, 
+            user_id: t+1
+        )
+    end
 end

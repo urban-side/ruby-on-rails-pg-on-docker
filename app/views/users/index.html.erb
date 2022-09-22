@@ -28,6 +28,7 @@
           <th scope="col">ID</th>
           <th scope="col">名前</th>
           <th scope="col">アドレス</th>
+          <th scope="col">タスク数（未着手, 作業中, 完了）</th>
           <th scope="col">作成日時</th>
           <th scope="col">更新日時</th>
           <th scope="col"></th>
@@ -39,6 +40,13 @@
               <td><%= user.id %></td>
               <td><%= link_to user.name, edit_user_path(user)%></td>
               <td><%= user.email %></td>
+              <td align="center">
+                <%= user.tasks.count %>（
+                  <%= user.tasks.where(status: 0).count %>, 
+                  <%= user.tasks.where(status: 1).count %>,
+                  <%= user.tasks.where(status: 2).count %>
+                ）
+              </td>
               <td><%= user.created_at.strftime('%Y.%m.%d %H:%M') %></td>
               <td><%= user.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
               <td>

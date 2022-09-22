@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid">
+        <a href="/tasks" class="navbar-brand">Tasks</a>
+        <div>
+          <%= link_to current_user.name, user_path(session[:user_id]), class: 'btn btn-link' %>
+          <%= link_to "log out", logout_path, method: :delete, class: 'btn btn-outline-danger' %>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container mb-3">
+      <%= link_to "Create New User", new_user_path, class: 'btn btn-info btn-block' %>
+    </div>
+
+    <h1>Users Info</h1>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th scope="col">ID</th>
+          <th scope="col">名前</th>
+          <th scope="col">アドレス</th>
+          <th scope="col">作成日時</th>
+          <th scope="col">更新日時</th>
+          <th scope="col"></th>
+        </thead>
+        
+        <tbody>
+          <% @users.each do |user| %>
+            <tr valign="middle">
+              <td><%= user.id %></td>
+              <td><%= link_to user.name, edit_user_path(user)%></td>
+              <td><%= user.email %></td>
+              <td><%= user.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+              <td><%= user.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+              <td>
+                <%= link_to "Delete", user_path(user), class: 'btn btn-outline-danger btn-sm', method: :delete, 
+                data: {confirm: "このユーザーを削除します。よろしいですか？"} %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%= paginate @users, class: 'mb-3', theme: 'twitter-bootstrap-4'%>
+  
+  </body>
+</html>

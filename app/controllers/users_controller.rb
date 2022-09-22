@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_varbs, only: [:show]
-  before_action :logged_in_user, only: [:index, :edit, :update]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :logged_in_user
+  before_action :admin_check, only: [:index, :destroy]
 
   def index
     @users = User.all.page(params[:page])
@@ -53,6 +53,17 @@ class UsersController < ApplicationController
     end
   end
   
+  def chrole
+    @user = User.find(params[:id])
+    if @user.update_attribute(:admin, !@user.admin?)
+      flash[:success] = "User Role was successfully updated"
+      redirect_to user_url(@user)
+    else
+      flash[:error] = "Something went wrong"
+      redirect_to user_url(@user)
+    end
+  end
+
   private
     def user_params
       params.require(:user).permit(
@@ -78,5 +89,12 @@ class UsersController < ApplicationController
     def set_varbs
       @status = ["未着手", "作業中", "完了"]
       @priority_mark = ["", "!", "!!", "!!!"]
+    end
+
+    def admin_check
+      unless current_user.admin?
+        flash[:danger] = 'You have NO PERMISSION.'
+        redirect_to user_path(current_user)
+      end
     end
 end

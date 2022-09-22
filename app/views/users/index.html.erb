@@ -38,7 +38,7 @@
           <% @users.each do |user| %>
             <tr valign="middle">
               <td><%= user.id %></td>
-              <td><%= link_to user.name, edit_user_path(user)%></td>
+              <td><%= link_to user.name, user_path(user)%></td>
               <td><%= user.email %></td>
               <td align="center">
                 <%= user.tasks.count %>（

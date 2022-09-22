@@ -25,8 +25,37 @@
       <p>メールアドレス：<%= @user.email %></p>
       <p>作成日時：<%= @user.created_at.strftime('%Y.%m.%d %H:%M') %></p>
       <p>更新日時：<%= @user.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
-      <hr>
 
+      <h2>Tasks</h2>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <th scope="col">タイトル</th>
+            <th scope="col">詳細</th>
+            <th scope="col">進捗</th>
+            <th scope="col">〆切日時</th>
+            <th scope="col">優先度</th>
+            <th scope="col">作成日時</th>
+            <th scope="col">更新日時</th>
+          </thead>
+          
+          <tbody>
+            <% @user.tasks.each do |task| %>
+              <tr>
+                <td><%= link_to task.title, task_path(task)%></td>
+                <td><%= task.description %></td>
+                <td><%= @status[task.status] %></td>
+                <td><%= nil_trans task.date, true %></td>
+                <td><%= @priority_mark[nil_trans task.priority, false, true] %></td>
+                <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+                <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <hr>
       <%= link_to "Edit", edit_user_path(@user), class: 'btn btn-info btn-sm w-25' %>
       <%= link_to "User Management", users_path, class: 'btn btn-warning btn-sm w-25' %>
       <div class="my-3">

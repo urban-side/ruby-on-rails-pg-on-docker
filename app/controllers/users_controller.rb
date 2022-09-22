@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_varbs, only: [:show]
   before_action :logged_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
 
@@ -72,5 +73,10 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
+    end
+
+    def set_varbs
+      @status = ["未着手", "作業中", "完了"]
+      @priority_mark = ["", "!", "!!", "!!!"]
     end
 end

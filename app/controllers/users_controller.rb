@@ -3,12 +3,11 @@ class UsersController < ApplicationController
   before_action :correct_user, only: [:edit, :update]
 
   def index
-    @users = User.all
+    @users = User.all.page(params[:page])
   end
   
-
   def show
-    @user = User.find(session[:user_id])
+    @user = User.find(params[:id])
   end
   
   def new
@@ -28,11 +27,11 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = User.find(session[:user_id])
+    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(session[:user_id])
+    @user = User.find(params[:id])
       if @user.update_attributes(user_params)
         flash[:success] = "User was successfully updated"
         redirect_to @user
@@ -43,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(session[:user_id])
+    @user = User.find(params[:id])
     if @user.destroy
       flash[:success] = 'User was successfully deleted.'
       redirect_to users_url

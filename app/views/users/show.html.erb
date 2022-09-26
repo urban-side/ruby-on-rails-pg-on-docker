@@ -70,9 +70,12 @@
         <%= link_to "Delete User", user_path(@user), class: 'btn btn-outline-danger btn-sm w-25', method: :delete, 
         data: {confirm: "このユーザーを削除します。よろしいですか？"} %>
       <% end %>
-      <div class="my-3">
+      <div class="mt-3">
         <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
       </div>
+      <% if current_user.admin? %>
+        <%= link_to "<< User Management", users_path, class: 'btn btn-link mb-3' %>
+      <% end %>
     </div>
 
   </body>

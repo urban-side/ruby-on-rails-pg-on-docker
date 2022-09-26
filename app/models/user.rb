@@ -9,4 +9,16 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }    # 大文字小文字関係なく一致ないように制限（この時uniqunessは自動的にtrue扱い）
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+
+  # 管理ユーザーが0人になる際は更新・削除はできない
+  before_update :cannot_update_admin
+  before_destroy :cannot_delete_admin
+  private
+    def cannot_update_admin
+      throw :abort if User.where(admin: true).count == 1 && self.admin_change_to_be_saved == [true, false]
+    end
+
+    def cannot_delete_admin
+      throw :abort if User.where(admin: true).count == 1 && self.admin == true
+    end
 end

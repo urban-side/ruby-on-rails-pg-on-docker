@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_varbs, only: [:show]
-  before_action :logged_in_user, only: [:index, :edit, :update]
-  before_action :correct_user, only: [:edit, :update]
+  before_action :logged_in_user
+  before_action :admin_check, only: [:index, :destroy]
 
   def index
     @users = User.all.page(params[:page])
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to this App!"
       redirect_to root_url
     else
-      flash[:error] = "Something went wrong"
+      flash[:danger] = "Something went wrong"
       render 'new'
     end
   end
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         flash[:success] = "User was successfully updated"
         redirect_to @user
       else
-        flash[:error] = "Something went wrong"
+        flash[:danger] = "Update process: Something went wrong"
         render 'edit'
       end
   end
@@ -48,11 +48,22 @@ class UsersController < ApplicationController
       flash[:success] = 'User was successfully deleted.'
       redirect_to users_url
     else
-      flash[:error] = 'Something went wrong'
+      flash[:danger] = 'Delete process: Something went wrong'
       redirect_to users_url
     end
   end
   
+  def chrole
+    @user = User.find(params[:id])
+    if @user.update_attribute(:admin, !@user.admin?)
+      flash[:success] = "User Role was successfully updated"
+      redirect_to user_url(@user)
+    else
+      flash[:danger] = "Role Change process: Something went wrong, admin user maybe last one."
+      redirect_to user_url(@user)
+    end
+  end
+
   private
     def user_params
       params.require(:user).permit(
@@ -78,5 +89,12 @@ class UsersController < ApplicationController
     def set_varbs
       @status = ["未着手", "作業中", "完了"]
       @priority_mark = ["", "!", "!!", "!!!"]
+    end
+
+    def admin_check
+      unless current_user.admin?
+        flash[:danger] = 'You have NO PERMISSION.'
+        redirect_to user_path(current_user)
+      end
     end
 end

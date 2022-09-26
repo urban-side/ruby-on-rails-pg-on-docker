@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   scope '/admin' do
     resources :users
+    patch '/users/:id/chrole', to: 'users#chrole', as: 'chrole_user'
   end
 
   # resourcesを使うフルセットルーティングはいらないので個別指定

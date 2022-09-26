@@ -19,10 +19,19 @@
 
     <div class="container">
       <h1>アカウント情報</h1>
-      <%= flash[:notice] %>
+      <% flash.each do |message_type, message| %>
+        <div class="alert alert-<%= message_type %>"><%= message %></div>
+      <% end %>
       <hr>
       <p>ユーザー名：<%= @user.name %></p>
       <p>メールアドレス：<%= @user.email %></p>
+      <p>
+        権限：<%= @user.admin ? "admin" : "user" %>
+        <% if current_user.admin? %>
+          <%= button_to "Change Role", chrole_user_path(@user), class: 'btn btn-sm btn-link p-0', method: :patch,
+          data: {confirm: "ユーザーロールを変更します。よろしいですか？"} %>
+        <% end %>
+      </p>
       <p>作成日時：<%= @user.created_at.strftime('%Y.%m.%d %H:%M') %></p>
       <p>更新日時：<%= @user.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
 
@@ -56,11 +65,17 @@
       </div>
 
       <hr>
-      <%= link_to "Edit", edit_user_path(@user), class: 'btn btn-info btn-sm w-25' %>
-      <%= link_to "User Management", users_path, class: 'btn btn-warning btn-sm w-25' %>
-      <div class="my-3">
+      <%= link_to "Edit Info", edit_user_path(@user), class: 'btn btn-info btn-sm w-25' %>
+      <% if current_user.admin? %>
+        <%= link_to "Delete User", user_path(@user), class: 'btn btn-outline-danger btn-sm w-25', method: :delete, 
+        data: {confirm: "このユーザーを削除します。よろしいですか？"} %>
+      <% end %>
+      <div class="mt-3">
         <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
       </div>
+      <% if current_user.admin? %>
+        <%= link_to "<< User Management", users_path, class: 'btn btn-link mb-3' %>
+      <% end %>
     </div>
 
   </body>

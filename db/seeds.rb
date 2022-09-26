@@ -12,7 +12,8 @@
     User.create!(
         name: "user#{t+1}",
         email: "sample#{t+1}@example.com",
-        password: "hogehoge#{t+1}"
+        password: "hogehoge#{t+1}",
+        admin: true
     )
     3.times do |n|
         Task.create!(

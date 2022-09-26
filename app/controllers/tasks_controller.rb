@@ -97,7 +97,7 @@ class TasksController < ApplicationController
     end
 
     def set_q
-      @q = Task.ransack(params[:q])
+      @q = Task.where(user_id: session[:user_id]).ransack(params[:q])
     end
 
     def loggedin_check

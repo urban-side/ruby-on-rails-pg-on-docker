@@ -22,6 +22,9 @@
     </div>
 
     <h1>Users Info</h1>
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %>"><%= message %></div>
+    <% end %>
     <div class="table-responsive">
       <table class="table">
         <thead>

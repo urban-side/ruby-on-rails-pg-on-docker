@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to this App!"
       redirect_to root_url
     else
-      flash[:error] = "Something went wrong"
+      flash[:danger] = "Something went wrong"
       render 'new'
     end
   end
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         flash[:success] = "User was successfully updated"
         redirect_to @user
       else
-        flash[:error] = "Something went wrong"
+        flash[:danger] = "Update process: Something went wrong"
         render 'edit'
       end
   end
@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       flash[:success] = 'User was successfully deleted.'
       redirect_to users_url
     else
-      flash[:error] = 'Something went wrong'
+      flash[:danger] = 'Delete process: Something went wrong'
       redirect_to users_url
     end
   end
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
       flash[:success] = "User Role was successfully updated"
       redirect_to user_url(@user)
     else
-      flash[:error] = "Something went wrong"
+      flash[:danger] = "Role Change process: Something went wrong, admin user maybe last one."
       redirect_to user_url(@user)
     end
   end

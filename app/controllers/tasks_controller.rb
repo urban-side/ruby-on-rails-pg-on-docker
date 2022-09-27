@@ -6,7 +6,7 @@ class TasksController < ApplicationController
 
   def index
     # @tasks = Task.all.order("#{sort_column} #{sort_direction}").page(params[:page])
-    @tasks = Task.where(user_id: session[:user_id]).order("#{sort_column} #{sort_direction}").page(params[:page])
+    @tasks = Task.where(user_id: session[:user_id]).includes(:user).order("#{sort_column} #{sort_direction}").page(params[:page])
   end
 
   def show
@@ -66,7 +66,7 @@ class TasksController < ApplicationController
   end
 
   def search
-    @results = @q.result
+    @results = @q.result(district: true).uniq
   end
 
   private
@@ -77,7 +77,7 @@ class TasksController < ApplicationController
         :status,
         :date,
         :priority,
-        :label
+        { label_ids: [] }
       )
     end
 
@@ -97,7 +97,7 @@ class TasksController < ApplicationController
     end
 
     def set_q
-      @q = Task.ransack(params[:q])
+      @q = Task.where(user_id: session[:user_id]).includes(:user).ransack(params[:q])
     end
 
     def loggedin_check

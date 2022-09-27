@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Create Label</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-light bg-light mb-3">
+      <div class="container-fluid">
+        <a href="/" class="navbar-brand">Tasks</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1>New Label</h1>
+      <%= flash[:notice] %>
+      <hr>
+      <%= render 'form', label: @label %>
+      <hr>
+
+      <div class="my-3">
+        <%= link_to "< Back", :back, class: 'btn btn-link' %><br>
+        <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
+      </div>
+    </div>
+  </body>
+</html>

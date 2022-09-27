@@ -21,27 +21,24 @@
       <%= link_to "Create New Task", new_task_path, class: 'btn btn-info btn-block mb-3' %>
       <hr>
       <%= search_form_for @q, url: search_tasks_path do |f| %>
-        <div class="row align-items-center">
-          <div class="col-md-4"><%= f.search_field :title_cont, placeholder: "検索したいタイトル", class: 'form-control'%></div>
-          <div class="col-md-6" style="text-align:center;">
-            <div class="form-check form-check-inline">
-              <%= f.radio_button :status_eq, '', class: 'form-check-input' %>
-              <label class="form-check-label">指定なし</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <%= f.radio_button :status_eq, 0, class: 'form-check-input' %>
-              <label class="form-check-label">未着手</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <%= f.radio_button :status_eq, 1, class: 'form-check-input' %>
-              <label class="form-check-label">作業中</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <%= f.radio_button :status_eq, 2, class: 'form-check-input' %>
-              <label class="form-check-label">完了</label>
-            </div>
+        <div class="row align-items-center mb-3">
+          <div class="col-md-8"><%= f.search_field :title_cont, placeholder: "検索したいタイトル", class: 'form-control'%></div>
+          <div class="form-group col-md-4 mb-0">
+            <%= f.select :status_eq, [["未着手", 0], ["作業中", 1], ["完了", 2]], {include_blank: true}, {class: 'form-control'} %>
           </div>
-          <div class="col"><%= f.submit '検索', class: 'btn btn-primary btn-sm btn-block' %></div>
+        </div>
+        <div class="row align-items-center mb-3">
+          <div class="col">
+            <%= f.collection_check_boxes :labels_id_eq_any, Label.all, :id, :name do |b| %>
+              <%= b.label class:"form-check-inline form-check-label" do %>
+                <%= b.check_box(class:"form-check-input") + b.text %>
+              <%end%>
+            <% end %>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-md-4 offset-md-4"><%= f.submit '検索', class: 'btn btn-primary btn-sm btn-block' %></div>
+        </div>
         <% end %>
       </div>
     </div>
@@ -58,7 +55,6 @@
           <th scope="col"><%= sort_order "date", "〆切日時"%></th>
           <th scope="col"><%= sort_order "priority", "優先度"%></th>
           <th scope="col"><%= sort_order "user_id", "作成者"%></th>
-          <th scope="col"><%= sort_order "label", "ラベル"%></th>
           <th scope="col"><%= sort_order "created_at", "作成日時"%></th>
           <th scope="col"><%= sort_order "updated_at", "更新日時"%></th>
         </thead>
@@ -73,7 +69,6 @@
               <td><%= nil_trans task.date, true %></td>
               <td><%= @priority_mark[nil_trans task.priority, false, true] %></td>
               <td><%= nil_trans task.user.name %></td>
-              <td><%= nil_trans task.label %></td>
               <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
               <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
             </tr>

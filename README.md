@@ -1,18 +1,11 @@
-# Ruby on Rails on Docker
-
-## Ruby version
- - [.ruby-version](https://github.com/hihats/ruby-on-rails-pg-on-docker/blob/master/.ruby-version)
+# タスク管理App with Ruby on Rails on Docker
 
 
-## Gem versions
+## Versions
 - Ruby on Rails [![Gem Version](https://badge.fury.io/rb/rails.svg)](https://badge.fury.io/rb/rails)
 
 - rubocop [![Gem Version](https://badge.fury.io/rb/rubocop.svg)](https://badge.fury.io/rb/rubocop)
 
-# Setup Dockerized development environment
-- Docker環境をローカルマシンに作成
-- bundlerでFWなどのパッケージを導入して使用する想定
-- RDBMSはPostgreSQLとする
 
 ## Installation
 
@@ -26,132 +19,49 @@ $ brew install docker
 $ brew cask install docker
 ```
 
+
 ## Initial Setting
 
-### Launch Docker Host OS（docker-machineをつかう場合だけ必要）
+[環境構築の参考](./README_origin.md)
+
+### 起動
 ```bash
-$ docker-machine create --driver virtualbox myrailsapp
-$ docker-machine start myrailsapp
-```
-#### 起動を確認
-```bash
-$ docker-machine ls
-```
-#### 接続
-```bash
-$ docker-machine env myrailsapp
-```
-`# Run this command to configure your shell:`と出力されるので従う
-
-
-## Gemfile確認
-DefaultではRuby on Rails最低限のGemのみ記載
-この上に必要なGemを追加していきます。
-
-
-## Docker Container build
-docker-composeコマンドを使い、複数コンテナをbuild〜起動していく
-
-### コンテナ構成
-- app
-- db
-- node（初期は使わないので削除してもよい）
-
-(設定は`docker-compose.yml`)
-```
 $ docker-compose build
-Successfully built.
+$ docker-compose up -d    # -d:バックグラウンド起動
 ```
-> M1 Macの場合、node設定内に `platform: linux/amd64` の追記が必要かもしれないです。
+> `app`, `node`, `db`, `selenium_chrome` のコンテナが起動
+> M1 Macの場合、node設定内に `platform: linux/amd64` の追記が必要
 
-## Generation packages by rails new
-```
-$ docker-compose run --rm app rails new . -d postgresql --skip-bundle --skip-turbolinks --skip-test --skip
-```
+起動したら[こちら](localhost/login)からローカルアクセスできる。
 
-- M1 Macの場合
-  - `rails new`した後に出てくるファイルであるconfig/environments/development.rbを以下のように修正する
-    ```ruby:config/environments/development.rb
-    - config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-    + config.file_watcher = ActiveSupport::FileUpdateChecker
-    ```
-  - 参考：[M1 ProのDockerで沼にハマった話](https://zenn.dev/kenkenlysh/articles/6ba1f5b6b59f2c)
-
-## 起動
-```
-$ docker-compose up -d
-```
-
-コンテナの起動確認
-```
-$ docker ps
-```
-
-## データベースのConnection設定
-生成された`config/database.yml`の `development:` 配下に
-```
-database: <%= ENV['PG_DATABASE'] %>
-username: <%= ENV['PG_USER'] %>
-password: <%= ENV['PG_PASSWORD'] %>
-host: db
-```
-を追加修正
-** postgresのdockerイメージは起動時に初期DBや初期ユーザをよしなに作成してくれることを留意しておく **
-
-[postgresイメージに渡せる環境変数の参照](https://hub.docker.com/_/postgres)
-
-### 設定変更後はコンテナを再起動する
-```
-$ docker-compose restart app
-```
-
-## ブラウザでRailsの起動確認
-```
-$ open http://0.0.0.0
-```
-docker-machineの場合
-```
-$ open http://$(docker-machine ip myrailsapp)
-```
-Railsの初期画面が表示されればSetup Complete
-
-
-
-## Gemfileに変更があった場合
-変更をローカルにマージ後
-
-```
-$ docker-composer build
-```
-buildし直すことで、DockerfileのAddがGemfile&Gemfile.lockのキャッシュから更新があったときのみ検知してbundle install が走る
-
-
-## 既存問題点
-
-###  Docker machine のホスト時刻がずれて、Railsの更新が反映されない問題
-
-http://qiita.com/pocari/items/456052a291381895f8b3
-
-Dockerマシンの中に入って
+### 接続
 ```bash
-$ docker-machine ssh ****
+$ docker exec -it app bash    # -it:いつものコンソールとしてアクセスするためのオプション
+
+# railsコンテナアクセス後、初期データを導入
+app% rails db:seed
 ```
 
-VirualBoxの設定変更
-```bash
-$ sudo VBoxControl guestproperty set "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold" 5000
-```
+## 機能
 
+### ユーザー管理
 
+- 名前
+- メールアドレス
+- パスワード
 
-###  Docker inorify issue
+ユーザーを新規に作成した場合は一般ユーザー権限なので、管理ユーザーから権限付与してください。
+> 最悪`rails console`から直接ユーザーデータを`update_attribute(:admin, true)`で更新してもいい
 
- `reach limit of inotify count in rails console` Error Message
+ログイン状態はブラウザ終了までCookieに保存される仕様です。許可してください。
 
-[Increasing the amount of inotify watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers)
+### タスク管理
 
-```bash
-$ echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-$ cat /proc/sys/fs/inotify/max_user_watches
-```
-Dockerfileに組み込みたいが、Privilegedで起動扠せねばならぬ問題があるため、起動時に叩くシェルを作るか
+- タイトル
+- 詳細
+- 進捗
+- 〆切日時
+- 優先度
+- ラベル
+
+> ラベルはタスク編集画面から新規登録や一覧画面に移動できる。

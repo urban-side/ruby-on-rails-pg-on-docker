@@ -1,44 +1,31 @@
-<!DOCTYPE html>
+<%= render 'navbar' %>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Task Detail</title>
-  </head>
+<div class="container">
+  <h1><%= @task.title %></h1>
+  <%= flash[:notice] %>
 
-  <body>
-    <nav class="navbar navbar-light bg-light mb-3">
-      <div class="container-fluid">
-        <a href="/" class="navbar-brand">Tasks</a>
-      </div>
-    </nav>
+  <hr>
+  
+  <p><%= @task.description %></p>
+  <p>進捗：<%= @status[@task.status] %></p>
+  <p>〆切日時：<%= nil_trans @task.date, true %></p>
+  <p>優先度：<%= @priority_mark[nil_trans @task.priority, false, true] %></p>
+  <p>作成者：<%= nil_trans @task.user.name %></p>
+  <p>ラベル：
+    <% @task.labels.each do |label| %>
+      <button type="button" class="btn btn-sm btn-dark" disabled><%= label.name %></button>
+    <% end %>
+  </p>
+  <p>作成日時：<%= @task.created_at.strftime('%Y.%m.%d %H:%M') %></p>
+  <p>更新日時：<%= @task.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
 
-    <div class="container">
-      <h1><%= @task.title %></h1>
-      <%= flash[:notice] %>
-      <hr>
-      <p><%= @task.description %></p>
-      <p>進捗：<%= @status[@task.status] %></p>
-      <p>〆切日時：<%= nil_trans @task.date, true %></p>
-      <p>優先度：<%= @priority_mark[nil_trans @task.priority, false, true] %></p>
-      <p>作成者：<%= nil_trans @task.user.name %></p>
-      <p>ラベル：
-        <% @task.labels.each do |label| %>
-          <button type="button" class="btn btn-sm btn-dark" disabled><%= label.name %></button>
-        <% end %>
-      </p>
-      <p>作成日時：<%= @task.created_at.strftime('%Y.%m.%d %H:%M') %></p>
-      <p>更新日時：<%= @task.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
-      <hr>
+  <hr>
 
-      <%= link_to "Edit", edit_task_path(@task), class: 'btn btn-info btn-sm w-25' %>
-      <%= link_to "Destroy", task_path(@task), class: 'btn btn-outline-danger btn-sm w-25', method: :delete, data: {
-          confirm: "このタスクを削除します。よろしいですか？"
-      } %>
-      <div class="my-3">
-        <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
-      </div>
-    </div>
-
-  </body>
-</html>
+  <%= link_to "Edit", edit_task_path(@task), class: 'btn btn-info btn-sm w-25' %>
+  <%= link_to "Destroy", task_path(@task), class: 'btn btn-outline-danger btn-sm w-25', method: :delete,
+      data: {confirm: "このタスクを削除します。よろしいですか？"} %>
+  
+  <div class="my-3">
+    <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
+  </div>
+</div>

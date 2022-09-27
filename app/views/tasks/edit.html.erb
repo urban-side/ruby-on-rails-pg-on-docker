@@ -1,28 +1,13 @@
-<!DOCTYPE html>
+<%= render 'navbar' %>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Edit Task</title>
-  </head>
+<div class="container">
+  <h1>New Task</h1>
+  <%= flash[:notice] %>
+  <hr>
+  <%= render "form", task: @task, url: task_url%>
+  <hr>
 
-  <body>
-    <nav class="navbar navbar-light bg-light mb-3">
-      <div class="container-fluid">
-        <a href="/" class="navbar-brand">Tasks</a>
-      </div>
-    </nav>
-
-    <div class="container">
-      <h1>New Task</h1>
-      <%= flash[:notice] %>
-      <hr>
-      <%= render "form", task: @task, url: task_url%>
-      <hr>
-
-      <div class="my-3">
-        <%= link_to "< Back", task_url(@task), class: 'btn btn-link' %>
-      </div>
-    </div>
-  </body>
-</html>
+  <div class="my-3">
+    <%= link_to "< Back", task_url(@task), class: 'btn btn-link' %>
+  </div>
+</div>

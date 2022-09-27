@@ -1,0 +1,9 @@
+<nav class="navbar navbar-light bg-light mb-3">
+  <div class="container-fluid">
+    <a href="/tasks" class="navbar-brand">Tasks</a>
+    <div>
+      <%= link_to current_user.name, user_path(session[:user_id]), class: 'btn btn-link' %>
+      <%= link_to "log out", logout_path, method: :delete, class: 'btn btn-outline-danger' %>
+    </div>
+  </div>
+</nav>

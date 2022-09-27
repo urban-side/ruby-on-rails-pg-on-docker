@@ -1,82 +1,67 @@
-<!DOCTYPE html>
+<%= render 'navbar' %>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>User Detail</title>
-  </head>
+<div class="container">
+  <h1>アカウント情報</h1>
+  
+  <% flash.each do |message_type, message| %>
+    <div class="alert alert-<%= message_type %>"><%= message %></div>
+  <% end %>
+  
+  <hr>
 
-  <body>
-    <nav class="navbar navbar-light bg-light mb-3">
-      <div class="container-fluid">
-        <a href="/" class="navbar-brand">Tasks</a>
-        <div>
-          <%= link_to current_user.name, user_path(session[:user_id]), class: 'btn btn-link' %>
-          <%= link_to "log out", logout_path, method: :delete, class: 'btn btn-outline-danger' %>
-        </div>
-      </div>
-    </nav>
+  <p>ユーザー名：<%= @user.name %></p>
+  <p>メールアドレス：<%= @user.email %></p>
+  <p>権限：<%= @user.admin ? "admin" : "user" %>
+    <% if current_user.admin? %>
+      <%= button_to "Change Role", chrole_user_path(@user), class: 'btn btn-sm btn-link p-0', method: :patch,
+      data: {confirm: "ユーザーロールを変更します。よろしいですか？"} %>
+    <% end %>
+  </p>
+  <p>作成日時：<%= @user.created_at.strftime('%Y.%m.%d %H:%M') %></p>
+  <p>更新日時：<%= @user.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
 
-    <div class="container">
-      <h1>アカウント情報</h1>
-      <% flash.each do |message_type, message| %>
-        <div class="alert alert-<%= message_type %>"><%= message %></div>
-      <% end %>
-      <hr>
-      <p>ユーザー名：<%= @user.name %></p>
-      <p>メールアドレス：<%= @user.email %></p>
-      <p>
-        権限：<%= @user.admin ? "admin" : "user" %>
-        <% if current_user.admin? %>
-          <%= button_to "Change Role", chrole_user_path(@user), class: 'btn btn-sm btn-link p-0', method: :patch,
-          data: {confirm: "ユーザーロールを変更します。よろしいですか？"} %>
+  <h2>Tasks</h2>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <th scope="col">タイトル</th>
+        <th scope="col">詳細</th>
+        <th scope="col">進捗</th>
+        <th scope="col">〆切日時</th>
+        <th scope="col">優先度</th>
+        <th scope="col">作成日時</th>
+        <th scope="col">更新日時</th>
+      </thead>
+      
+      <tbody>
+        <% @user.tasks.each do |task| %>
+          <tr>
+            <td><%= link_to task.title, task_path(task)%></td>
+            <td><%= task.description %></td>
+            <td><%= @status[task.status] %></td>
+            <td><%= nil_trans task.date, true %></td>
+            <td><%= @priority_mark[nil_trans task.priority, false, true] %></td>
+            <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
+            <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
+          </tr>
         <% end %>
-      </p>
-      <p>作成日時：<%= @user.created_at.strftime('%Y.%m.%d %H:%M') %></p>
-      <p>更新日時：<%= @user.updated_at.strftime('%Y.%m.%d %H:%M') %></p>
+      </tbody>
+    </table>
+  </div>
 
-      <h2>Tasks</h2>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <th scope="col">タイトル</th>
-            <th scope="col">詳細</th>
-            <th scope="col">進捗</th>
-            <th scope="col">〆切日時</th>
-            <th scope="col">優先度</th>
-            <th scope="col">作成日時</th>
-            <th scope="col">更新日時</th>
-          </thead>
-          
-          <tbody>
-            <% @user.tasks.each do |task| %>
-              <tr>
-                <td><%= link_to task.title, task_path(task)%></td>
-                <td><%= task.description %></td>
-                <td><%= @status[task.status] %></td>
-                <td><%= nil_trans task.date, true %></td>
-                <td><%= @priority_mark[nil_trans task.priority, false, true] %></td>
-                <td><%= task.created_at.strftime('%Y.%m.%d %H:%M') %></td>
-                <td><%= task.updated_at.strftime('%Y.%m.%d %H:%M') %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+  <hr>
+  
+  <%= link_to "Edit Info", edit_user_path(@user), class: 'btn btn-info btn-sm w-25' %>
+  <% if current_user.admin? %>
+    <%= link_to "Delete User", user_path(@user), class: 'btn btn-outline-danger btn-sm w-25', method: :delete, 
+    data: {confirm: "このユーザーを削除します。よろしいですか？"} %>
+  <% end %>
+  
+  <div class="mt-3">
+    <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
+  </div>
+  <% if current_user.admin? %>
+    <%= link_to "<< User Management", users_path, class: 'btn btn-link mb-3' %>
+  <% end %>
 
-      <hr>
-      <%= link_to "Edit Info", edit_user_path(@user), class: 'btn btn-info btn-sm w-25' %>
-      <% if current_user.admin? %>
-        <%= link_to "Delete User", user_path(@user), class: 'btn btn-outline-danger btn-sm w-25', method: :delete, 
-        data: {confirm: "このユーザーを削除します。よろしいですか？"} %>
-      <% end %>
-      <div class="mt-3">
-        <%= link_to "<< Home", root_path, class: 'btn btn-link' %>
-      </div>
-      <% if current_user.admin? %>
-        <%= link_to "<< User Management", users_path, class: 'btn btn-link mb-3' %>
-      <% end %>
-    </div>
-
-  </body>
-</html>
+</div>

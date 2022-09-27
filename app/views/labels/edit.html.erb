@@ -1,28 +1,13 @@
-<!DOCTYPE html>
+<%= render 'navbar' %>
 
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Create Label</title>
-  </head>
+<div class="container">
+  <h1>New Label</h1>
+  <%= flash[:notice] %>
+  <hr>
+  <%= render 'form', label: @label %>
+  <hr>
 
-  <body>
-    <nav class="navbar navbar-light bg-light mb-3">
-      <div class="container-fluid">
-        <a href="/" class="navbar-brand">Tasks</a>
-      </div>
-    </nav>
-
-    <div class="container">
-      <h1>New Label</h1>
-      <%= flash[:notice] %>
-      <hr>
-      <%= render 'form', label: @label %>
-      <hr>
-
-      <div class="my-3">
-        <%= link_to "< Back", labels_path, class: 'btn btn-link' %>
-      </div>
-    </div>
-  </body>
-</html>
+  <div class="my-3">
+    <%= link_to "< Back", labels_path, class: 'btn btn-link' %>
+  </div>
+</div>
